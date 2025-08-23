@@ -16,8 +16,21 @@ export const AuthProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("authToken");
       if (token) {
-        const userData = await authService.verifyToken(token);
-        setUser(userData.user);
+        const response = await fetch("http://localhost:5000/api/auth/verify", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setUser(data.user);
+        } else {
+          setUser(null);
+          localStorage.removeItem("authToken");
+        }
+      } else {
+        setUser(null);
       }
     } catch (err) {
       setUser(null);
@@ -79,7 +92,6 @@ export const AuthProvider = ({ children }) => {
     setError("");
   };
 
-  // Add these methods to your AuthProvider
   const verifyMFA = async (email, code) => {
     setLoading(true);
     setError("");
@@ -100,9 +112,9 @@ export const AuthProvider = ({ children }) => {
         return { success: false, error: data.error || "Verification failed" };
       }
 
-      // Save token and set user
       localStorage.setItem("authToken", data.token);
       setUser(data.user);
+
       setError("");
       setLoading(false);
       return { success: true };

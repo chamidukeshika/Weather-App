@@ -1,412 +1,82 @@
 .city-detail {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem 0;
-}
-
-.city-detail-error {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.detail-header {
-  display: flex;
-  align-items: center;
-}
-
-.back-button {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white !important;
-  padding: 12px;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  backdrop-filter: blur(5px);
-}
-
-.back-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateX(-2px);
-  color: white !important;
-}
-
-.city-detail-card {
-  background: #4fc3f7;
-  border-radius: 20px;
-  padding: 2.5rem;
-  color: white;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
-.city-detail-card::before {
-  content: "";
+/* Video background */
+.city-detail .bg-video {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
-  );
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -2;
 }
 
-.detail-card-header {
-  text-align: center;
-  margin-bottom: 3rem;
+.city-detail .overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: -1;
 }
 
-.city-name {
-  font-size: 2.5rem;
-  font-weight: 300;
-  margin-bottom: 0.5rem;
-  line-height: 1.2;
-}
-
-.current-time {
-  font-size: 1.1rem;
-  opacity: 0.8;
-  margin: 0;
-}
-
-.main-weather-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.weather-icon-large {
-  font-size: 6rem;
-  margin-bottom: 1.5rem;
-  opacity: 0.9;
-}
-
-.temperature-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
-
-.main-temperature {
-  display: flex;
-  align-items: flex-start;
-  line-height: 1;
-}
-
-.main-temperature .temp-value {
-  font-size: 5rem;
-  font-weight: 100;
-}
-
-.main-temperature .temp-unit {
-  font-size: 2.5rem;
-  font-weight: 300;
-  margin-top: 0.5rem;
-}
-
-.weather-description h2 {
-  font-size: 1.8rem;
-  font-weight: 400;
-  margin: 0;
-  text-transform: capitalize;
-}
-
-.temp-range-detail {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.1rem;
-  opacity: 0.9;
-}
-
-.separator {
-  opacity: 0.6;
-}
-
-.weather-details-section {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 16px;
+/* Glass card */
+.city-detail .glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
   padding: 2rem;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(5px);
+  color: #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: cityDetailFadeInUp 0.8s ease-out;
 }
 
-.details-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem 1rem;
-  align-items: center;
-}
-
-.detail-item {
+/* Landscape Layout */
+.city-detail .landscape-layout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.city-detail .left-panel {
+  flex: 1;
   text-align: center;
-  gap: 0.5rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 1.5rem;
 }
 
-.detail-label {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  font-weight: 400;
-}
-
-.detail-value {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.wind-detail .wind-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.wind-icon {
-  width: 32px;
-  height: 32px;
+.city-detail .right-panel {
+  flex: 2;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
 }
 
-.wind-icon i {
-  font-size: 1.2rem;
-  transition: transform 0.3s ease;
+.city-detail .weather-icon-large {
+  font-size: 6rem;
+  margin-bottom: 1rem;
 }
 
-.wind-info .wind-speed {
+.city-detail .details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.city-detail .detail-item {
   font-size: 1.1rem;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  border-radius: 10px;
 }
 
-.detail-actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.refresh-button {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 25px;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(5px);
-}
-
-.refresh-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-1px);
-}
-
-.detail-footer {
-  margin-top: 3rem;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Responsive Design */
-@media (max-width: 992px) {
-  .city-detail {
-    padding: 1.5rem 0;
-  }
-
-  .city-detail-card {
-    padding: 2rem;
-  }
-
-  .city-name {
-    font-size: 2rem;
-  }
-
-  .main-temperature .temp-value {
-    font-size: 4rem;
-  }
-
-  .main-temperature .temp-unit {
-    font-size: 2rem;
-  }
-
-  .weather-icon-large {
-    font-size: 4.5rem;
-  }
-
-  .weather-description h2 {
-    font-size: 1.5rem;
-  }
-
-  .details-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .city-detail {
-    padding: 1rem 0;
-  }
-
-  .city-detail-card {
-    padding: 1.5rem;
-    margin: 0 10px;
-  }
-
-  .detail-card-header {
-    margin-bottom: 2rem;
-  }
-
-  .city-name {
-    font-size: 1.8rem;
-  }
-
-  .current-time {
-    font-size: 1rem;
-  }
-
-  .main-weather-display {
-    margin-bottom: 2rem;
-  }
-
-  .main-temperature .temp-value {
-    font-size: 3.5rem;
-  }
-
-  .main-temperature .temp-unit {
-    font-size: 1.8rem;
-  }
-
-  .weather-icon-large {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-  }
-
-  .weather-description h2 {
-    font-size: 1.3rem;
-  }
-
-  .temp-range-detail {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .separator {
-    display: none;
-  }
-
-  .weather-details-section {
-    padding: 1.5rem;
-  }
-
-  .details-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .detail-item {
-    flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 12px 16px;
-    border-radius: 8px;
-  }
-
-  .wind-detail .wind-display {
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-}
-
-@media (max-width: 576px) {
-  .city-detail-card {
-    margin: 0 5px;
-    padding: 1.25rem;
-  }
-
-  .city-name {
-    font-size: 1.6rem;
-  }
-
-  .main-temperature .temp-value {
-    font-size: 3rem;
-  }
-
-  .main-temperature .temp-unit {
-    font-size: 1.5rem;
-  }
-
-  .weather-icon-large {
-    font-size: 3.5rem;
-  }
-
-  .weather-description h2 {
-    font-size: 1.2rem;
-  }
-
-  .temp-range-detail {
-    font-size: 1rem;
-  }
-
-  .refresh-button {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-  }
-}
-
-/* Animation for the detail view */
-.city-detail-card {
-  animation: slideInFromBottom 0.6s ease-out;
-}
-
-@keyframes slideInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.weather-details-section {
-  animation: fadeInUp 0.8s ease-out 0.3s both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Animations (renamed for uniqueness) */
+@keyframes cityDetailFadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

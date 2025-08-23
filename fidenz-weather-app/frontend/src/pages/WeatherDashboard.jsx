@@ -269,7 +269,7 @@ const WeatherDashboard = () => {
             <Col>
               <div className="dashboard-footer text-center">
                 <p className="text-light opacity-50 mb-0">
-                  2021 Fidenz Technologies
+                  2025 Fidenz Technologies
                 </p>
               </div>
             </Col>

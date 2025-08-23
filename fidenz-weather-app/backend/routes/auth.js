@@ -45,18 +45,51 @@ async function sendMFACode(email) {
   
   // Send email
   const mailOptions = {
-    from:'chamidukeshikaz@gmail.com',
-    to: email,
-    subject: 'Your MFA Verification Code',
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2>Weather App Verification Code</h2>
-        <p>Your verification code is: <strong>${code}</strong></p>
-        <p>This code will expire in 10 minutes.</p>
-        <p>If you didn't request this code, please ignore this email.</p>
+  from: 'chamidukeshikaz@gmail.com',
+  to: email,
+  subject: 'Your MFA Verification Code',
+  html: `
+    <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; background: #f4f6f8; padding: 40px 20px;">
+      <div style="background: #ffffff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+        
+        <!-- Logo / Title -->
+        <h2 style="color: #0d6efd; text-align: center; font-size: 24px; margin-bottom: 10px;">🌤️ Weather App</h2>
+        <p style="text-align: center; color: #6c757d; font-size: 14px; margin-top: 0;">Secure Account Verification</p>
+        
+        <!-- Divider -->
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <!-- Message -->
+        <p style="color: #333; font-size: 16px; line-height: 1.6; text-align: center;">
+          Your verification code is:
+        </p>
+
+        <!-- Code Box -->
+        <div style="background: #0d6efd; color: #fff; font-size: 24px; font-weight: bold; letter-spacing: 4px; text-align: center; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          ${code}
+        </div>
+        
+        <!-- Info -->
+        <p style="color: #555; font-size: 14px; line-height: 1.6; text-align: center;">
+          This code will expire in <strong>10 minutes</strong>.<br>
+          If you didn’t request this, please ignore this email.
+        </p>
+        
+        <!-- Security Note -->
+        <div style="background: #f8f9fa; padding: 12px; border-left: 4px solid #0d6efd; border-radius: 6px; font-size: 13px; color: #6c757d; margin-top: 25px;">
+          🔒 Never share this code with anyone. Our team will never ask for it.
+        </div>
+        
       </div>
-    `
-  };
+      
+      <!-- Footer -->
+      <p style="text-align: center; font-size: 12px; color: #999; margin-top: 20px;">
+        © 2025 Weather App. All rights reserved.
+      </p>
+    </div>
+  `
+};
+
   
   await transporter.sendMail(mailOptions);
   return true;
@@ -117,6 +150,8 @@ router.post('/login', async (req, res) => {
     });
   }
 });
+
+
 // Add MFA verification endpoint
 router.post('/verify-mfa', async (req, res) => {
   try {
@@ -129,7 +164,7 @@ router.post('/verify-mfa', async (req, res) => {
       });
     }
 
-    // Check if code exists and is valid
+    // Check MFA
     const mfaData = mfaCodes.get(email);
     if (!mfaData || mfaData.code !== code) {
       return res.status(401).json({
@@ -138,16 +173,14 @@ router.post('/verify-mfa', async (req, res) => {
       });
     }
 
-    // Check if code has expired
     if (Date.now() > mfaData.expiresAt) {
-      mfaCodes.delete(email); // Clean up expired code
+      mfaCodes.delete(email);
       return res.status(401).json({
         success: false,
         error: 'Verification code has expired'
       });
     }
 
-    // Find user
     const user = testUsers.find(u => u.email === email);
     if (!user) {
       return res.status(401).json({
@@ -156,18 +189,14 @@ router.post('/verify-mfa', async (req, res) => {
       });
     }
 
-    // Generate JWT token
+    // ✅ Generate JWT
     const token = jwt.sign(
-      { 
-        userId: user.id, 
-        email: user.email,
-        name: user.name 
-      },
+      { userId: user.id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
       { expiresIn: process.env.JWT_EXPIRE }
     );
 
-    // Clean up used code
+    // Clean up used MFA code
     mfaCodes.delete(email);
 
     res.status(200).json({
@@ -190,6 +219,32 @@ router.post('/verify-mfa', async (req, res) => {
     });
   }
 });
+
+// ✅ Verify token endpoint (moved OUTSIDE verify-mfa)
+router.get('/verify', (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, error: 'No token provided' });
+    }
+
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: decoded.userId,
+        email: decoded.email,
+        name: decoded.name,
+      },
+    });
+  } catch (error) {
+    return res.status(401).json({ success: false, error: 'Invalid or expired token' });
+  }
+});
+
+
 
 // Add resend code endpoint
 router.post('/resend-mfa', async (req, res) => {
