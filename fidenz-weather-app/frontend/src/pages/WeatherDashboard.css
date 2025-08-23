@@ -1,0 +1,427 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.weather-dashboard {
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.dashboard-header {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-content {
+  width: 100%;
+  max-width: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* FIXED: Logo section centered */
+.logo-section {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.weather-logo {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.app-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-left: 0.5rem;
+}
+
+.search-add-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  gap: 1rem;
+  padding: 0 1rem;
+  margin-top: 3rem; /* Added margin to push below the logo */
+}
+
+.search-section {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+}
+
+.search-container {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-input-container {
+  position: relative;
+  flex: 1;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(58, 52, 52, 0.7);
+  z-index: 2;
+}
+
+.search-input {
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-radius: 25px;
+  padding: 12px 20px 12px 45px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.search-input:focus {
+  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+.add-city-section {
+  flex-shrink: 0;
+}
+
+.add-city-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.137);
+  color: white;
+  border-radius: 25px;
+  padding: 10px 16px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-city-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* FIXED: User section always at right end */
+.user-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto; /* Push to the right */
+}
+
+.user-dropdown {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 25px;
+  padding: 8px 16px;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.user-dropdown:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-dropdown::after {
+  border-top-color: white;
+}
+
+/* Profile icon only for mobile */
+.profile-icon-mobile {
+  display: none;
+}
+
+.dashboard-content {
+  padding: 2rem 0;
+}
+
+.status-bar {
+  background: rgba(0, 0, 0, 0.379);
+  backdrop-filter: blur (10px);
+  border-radius: 25px;
+  padding: 8px 16px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.weather-grid {
+  margin-top: 1rem;
+}
+
+.no-results {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.no-results-icon {
+  font-size: 3rem;
+  opacity: 0.7;
+}
+
+.dashboard-footer {
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .header-content {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .logo-section {
+    position: relative;
+    left: auto;
+    transform: none;
+    min-width: auto;
+    flex: 0 0 auto;
+    order: 1;
+  }
+  
+  .search-add-container {
+    order: 3;
+    width: 100%;
+    margin-top: 1rem;
+    justify-content: center;
+  }
+  
+  .user-section {
+    min-width: auto;
+    flex: 0 0 auto;
+    order: 2;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 992px) {
+  .search-add-container {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0;
+  }
+  
+  .search-section {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .search-container {
+    max-width: 100%;
+  }
+  
+  .add-city-btn {
+    width: 100%;
+  }
+  
+  .user-section {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 0.75rem 0;
+  }
+  
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .logo-section {
+    justify-content: center;
+    min-width: auto;
+    margin-bottom: 0.5rem;
+  }
+  
+  .app-title {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  
+  .weather-logo {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .dashboard-content {
+    padding: 1rem 0;
+  }
+  
+  .weather-grid {
+    margin-top: 0.5rem;
+  }
+  
+  .search-input {
+    font-size: 0.9rem;
+    padding: 10px 16px 10px 40px;
+  }
+  
+  .search-icon {
+    left: 12px;
+  }
+  
+  .user-dropdown {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .no-results {
+    padding: 2rem 1rem;
+  }
+  
+  .status-bar {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+  
+  /* Show profile icon only on mobile */
+  .profile-icon-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Hide full user dropdown on mobile */
+  .user-dropdown .user-text {
+    display: none;
+  }
+  
+  .user-dropdown {
+    padding: 8px;
+  }
+  
+  .user-dropdown::after {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .search-add-container {
+    gap: 0.5rem;
+  }
+  
+  .add-city-btn {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .logo-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .app-title {
+    font-size: 1.4rem;
+    margin-top: 0.5rem;
+    margin-left: 0;
+  }
+  
+  .search-icon {
+    left: 12px;
+  }
+}
+
+/* Animation classes */
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-animation > * {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-animation > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-animation > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-animation > *:nth-child(8) { animation-delay: 0.8s; }
