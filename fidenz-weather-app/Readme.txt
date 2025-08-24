@@ -29,6 +29,7 @@ Features **JWT authentication**, **Multi-Factor Authentication (MFA)** via email
 ### 1️⃣ Clone the Repository
 ```bash
 git clone https://github.com/chamidukeshika/Weather-App.git
+
 cd fidenz-weather-app
 
 
