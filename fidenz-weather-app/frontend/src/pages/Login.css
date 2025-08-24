@@ -198,26 +198,6 @@
   40%, 80% { transform: translateX(2px);}
 }
 
-/* --- Bootstrap Toast Customization ---
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 18px;
-  z-index: 9999;
-}
-.toast-error {
-  background: #fff0f3 !important;
-  color: #ef233c !important;
-  border-left: 6px solid #ef233c !important;
-  border-radius: 10px !important;
-  box-shadow: 0 4px 12px rgba(239,35,60,0.09);
-  min-width: 250px;
-}
-.toast-error .toast-header {
-  background: transparent !important;
-  color: #ef233c !important;
-  border-bottom: none;
-} */
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -69,7 +69,6 @@ const WeatherDashboard = () => {
   };
 
   const handleAddCity = () => {
-    // Placeholder for add city functionality
     console.log("Add city button clicked");
   };
 
@@ -235,7 +234,6 @@ const WeatherDashboard = () => {
                   <WeatherCard
                     weatherData={cityWeather}
                     onClose={() => {
-                      // Optional: Add functionality to remove city from view
                       console.log("Close city:", cityWeather.name);
                     }}
                   />

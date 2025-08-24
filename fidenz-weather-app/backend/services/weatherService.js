@@ -84,7 +84,6 @@ class WeatherService {
     const cacheKey = "all_weather_data";
     const cachedData = cache.get(cacheKey);
     if (cachedData) {
-      console.log("Returning cached weather data");
       return cachedData;
     }
 
@@ -97,7 +96,6 @@ class WeatherService {
         try {
           const cityWeather = await this.getCityWeatherData(cityId);
           weatherData.push(cityWeather);
-          console.log(`Fetched data for city ${cityId}`);
 
           // Add a small delay to avoid rate limiting (1 request per second)
           await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -111,7 +109,6 @@ class WeatherService {
       }
 
       cache.set(cacheKey, weatherData);
-      console.log("Weather data fetched and cached for all cities");
       return weatherData;
     } catch (error) {
       console.error("Weather API Error:", error.message);
@@ -124,7 +121,6 @@ class WeatherService {
     const cacheKey = `weather_${cityId}`;
     const cachedData = cache.get(cacheKey);
     if (cachedData) {
-      console.log(`Returning cached weather data for city ${cityId}`);
       return cachedData;
     }
 
@@ -140,7 +136,6 @@ class WeatherService {
 
       const weatherData = this.transformSingleCityData(response.data);
       cache.set(cacheKey, weatherData);
-      console.log(`Weather data fetched and cached for city ${cityId}`);
       return weatherData;
     } catch (error) {
       console.error(`Weather API Error for city ${cityId}:`, error.message);
@@ -148,7 +143,6 @@ class WeatherService {
       // Return mock data if API fails
       const mockData = this.getMockWeatherData(cityId);
       if (mockData) {
-        console.log(`Using mock data for city ${cityId}`);
         return mockData;
       }
 
@@ -260,7 +254,6 @@ class WeatherService {
 
   clearCache() {
     cache.flushAll();
-    console.log("Weather cache cleared");
   }
 }
 

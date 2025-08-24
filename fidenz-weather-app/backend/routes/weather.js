@@ -12,7 +12,7 @@ router.get('/cities', async (req, res) => {
       success: true,
       data: weatherData,
       count: weatherData.length,
-      cached: true // This will be determined by the service
+      cached: true
     });
 
 

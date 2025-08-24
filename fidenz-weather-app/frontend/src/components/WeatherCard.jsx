@@ -59,7 +59,6 @@ const WeatherCard = ({ weatherData, onClose }) => {
       case 'Tornado':
         return '#4A5568'; // Very dark gray-blue for tornado
       default:
-        // Temperature-based fallback
         if (temperature > 30) return '#BF5A36'; // Muted terracotta for hot temperatures
         if (temperature < 5) return '#4A77A3'; // Cool blue for cold temperatures
         return '#5D8CAE'; // Default blue-gray

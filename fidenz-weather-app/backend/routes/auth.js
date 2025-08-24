@@ -37,7 +37,7 @@ const mfaCodes = new Map();
 
 // Generate and send MFA code
 async function sendMFACode(email) {
-  const code = crypto.randomInt(100000, 999999).toString(); // 6-digit code
+  const code = crypto.randomInt(100000, 999999).toString(); 
   const expiresAt = Date.now() + 10 * 60 * 1000; // 10 minutes expiration
   
   // Store code with expiration
@@ -100,7 +100,7 @@ router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    console.log('Login attempt for:', email); // Add logging
+    
 
     // Validate input
     if (!email || !password) {
@@ -113,8 +113,7 @@ router.post('/login', async (req, res) => {
     // Find user
     const user = testUsers.find(u => u.email === email);
     if (!user) {
-      console.log('User not found:', email);
-      return res.status(401).json({
+           return res.status(401).json({
         success: false,
         error: 'Invalid credentials'
       });
@@ -122,7 +121,7 @@ router.post('/login', async (req, res) => {
 
     // Check password
     const isValidPassword = await bcrypt.compare(password, user.password);
-    console.log('Password valid:', isValidPassword);
+   
     
     if (!isValidPassword) {
       return res.status(401).json({
@@ -132,7 +131,6 @@ router.post('/login', async (req, res) => {
     }
 
     // Send MFA code instead of generating token
-    console.log('Sending MFA code to:', email);
     await sendMFACode(email);
     
     res.status(200).json({
@@ -142,8 +140,7 @@ router.post('/login', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Login error details:', error); // Detailed logging
-    res.status(500).json({
+        res.status(500).json({
       success: false,
       error: 'Login failed',
       message: error.message
@@ -189,7 +186,7 @@ router.post('/verify-mfa', async (req, res) => {
       });
     }
 
-    // ✅ Generate JWT
+    // Generate JWT
     const token = jwt.sign(
       { userId: user.id, email: user.email, name: user.name },
       process.env.JWT_SECRET,
@@ -211,7 +208,6 @@ router.post('/verify-mfa', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('MFA verification error:', error);
     res.status(500).json({
       success: false,
       error: 'Verification failed',
@@ -276,7 +272,6 @@ router.post('/resend-mfa', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Resend MFA error:', error);
     res.status(500).json({
       success: false,
       error: 'Failed to resend code',
